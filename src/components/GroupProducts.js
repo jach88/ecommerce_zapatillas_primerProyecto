@@ -22,6 +22,8 @@ export default function GroupProducts({productos}) {
                                     S/. {prod.precio}
                                 </span>
                             </div>
+                            
+
                         </Link>
                     </div>
                 ))}

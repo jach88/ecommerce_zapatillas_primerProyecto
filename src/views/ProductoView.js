@@ -52,6 +52,11 @@ export default function ProductoView() {
                                     S/ {producto.precio}
                                 </span>
                             </div>
+
+                            <div className="card-footer d-grid gap-2">
+                                <a href="#" className="btn btn-success btn-sm">Generar compra</a>
+                                <a href="#" className="btn btn-primary btn-sm">Añadir a carrito</a>
+                            </div>
                         </div>
                     </div>
                 </div> 

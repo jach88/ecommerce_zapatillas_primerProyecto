@@ -20,8 +20,7 @@ export default function PortadaView() {
     },[])
 
     return (
-        <div>
-            
+        <div>            
             <GroupProducts productos={productos} />
         </div>
     )
