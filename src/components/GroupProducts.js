@@ -1,10 +1,12 @@
 import {useState, useEffect} from 'react'
 import { Link } from 'react-router-dom'
 
+
 export default function GroupProducts({productos}) {
     console.log(productos)
     return (
         <div className='container'>
+            
             <div className="row mt-5">
                 {productos.map((prod,i) => (
                     <div className="col-6 col-lg-3"key={i}>

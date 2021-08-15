@@ -1,6 +1,7 @@
 import {useState, useEffect} from 'react'
 import { obtenerProductos } from '../services/productoService'
 import GroupProducts from '../components/GroupProducts'
+import CustomCarousel from '../components/CustomCarousel'
 import Header from '../components/Header'
 
 export default function PortadaView() {
@@ -20,7 +21,8 @@ export default function PortadaView() {
     },[])
 
     return (
-        <div>            
+        <div>
+            <CustomCarousel/>            
             <GroupProducts productos={productos} />
         </div>
     )

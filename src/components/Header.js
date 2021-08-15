@@ -7,7 +7,7 @@ export default function Header() {
         <header>
             <Link to="/">
                 <div className="logo">
-                    <img src={Logo} alt="logo" width="150" />
+                    <img src={Logo} alt="logo" width="150" style={{borderRadius:"10%"}} />
                 </div>
             </Link>
             <ul>
@@ -19,7 +19,7 @@ export default function Header() {
                     <Link to="/Login">LOGIN</Link>
                 </li>
             </ul>
-        
+            
         </header>
     )
 }

@@ -28,6 +28,7 @@ export default function ProductoView() {
             {cargando ? 
             (<Loading/>) :  
             (<div>
+                <br></br>
                 <div className="container" >
                     <h2 className="fw-bold">{producto.nombre}</h2>
                     <div className="row">
@@ -41,7 +42,10 @@ export default function ProductoView() {
                         <div className="col-sm-12 col-md-6">
                             <h5 className="fw-bold">Descripcion</h5>
                             <p>{producto.descripcion}</p>
-                            <div className="py-3 d-flex justify-content-between"> Escoge tu talla
+                            <h6 className="fw-bold">Marca</h6>
+                            <p>{producto.marca}</p>
+                            <div className="py-3 d-flex justify-content-between"> 
+                            <h6 className="fw-bold">Escoge tu talla</h6>
                                 {producto.tallas.map((talla,i)=>(
                                         <button  type="button" className="btn btn-link" key={i}>{talla} </button>
                                 ))}
@@ -49,7 +53,7 @@ export default function ProductoView() {
                             </div>
                             <div className="py-3 d-flex justify-content-between">
                                 <span className="fw-bold">
-                                    S/ {producto.precio}
+                                   Precio S/ {producto.precio}
                                 </span>
                             </div>
 
