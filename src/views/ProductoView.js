@@ -1,4 +1,5 @@
-import {useState, useEffect} from 'react'
+import {useState, useEffect, useContext} from 'react'
+import { CarritoContext } from '../context/carritoContext'
 import { useParams } from 'react-router-dom'
 import { obtenerProductoPorId, obtenerProductos } from '../services/productoService'
 import Loading from '../components/Loading'
@@ -9,6 +10,9 @@ export default function ProductoView() {
 
     const { id } = useParams()
 
+    const {anadirACarrito} = useContext(CarritoContext)
+    
+
     const getProducto = async() =>{
         try {
             let productoObtenido = await obtenerProductoPorId(id)
@@ -17,6 +21,10 @@ export default function ProductoView() {
         } catch (error) {
             console.error(error)
         }
+    }
+
+    const anadirACarritoContext = () => {
+        anadirACarrito(producto)
     }
 
     useEffect(() =>{
@@ -58,8 +66,11 @@ export default function ProductoView() {
                             </div>
 
                             <div className="card-footer d-grid gap-2">
-                                <a href="#" className="btn btn-success btn-sm">Generar compra</a>
-                                <a href="#" className="btn btn-primary btn-sm">Añadir a carrito</a>
+                                {/* <button href="#" className="btn btn-success btn-sm">Generar compra</button> */}
+                                <button className="btn btn-primary btn-sm" onClick={anadirACarritoContext}>
+                                    <i className="fas fa-shopping-cart me-2"/> 
+                                    Añadir a carrito
+                                </button>
                             </div>
                         </div>
                     </div>
