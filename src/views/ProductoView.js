@@ -67,7 +67,8 @@ export default function ProductoView() {
 
                             <div className="card-footer d-grid gap-2">
                                 {/* <button href="#" className="btn btn-success btn-sm">Generar compra</button> */}
-                                <button className="btn btn-primary btn-sm" onClick={anadirACarritoContext}>
+                                <button className="btn btn-primary btn-sm" 
+                                onClick={anadirACarritoContext}>
                                     <i className="fas fa-shopping-cart me-2"/> 
                                     Añadir a carrito
                                 </button>
