@@ -8,8 +8,8 @@ import carrusel3 from "../assets/img10.jpg"
 
 export default function CustomCarousel() {
   return (
-    <Carousel >
-        <Carousel.Item interval={1500} sm-1>
+    <Carousel variant="dark">
+        <Carousel.Item interval={1500}>
           <center>
           <img 
             
