@@ -26,8 +26,16 @@ export default function ProductoView() {
         }
     }
 
-    const anadirACarritoContext = () => {
+    const anadirACarritoContext = async() => {
         anadirACarrito(producto)
+        const resultado = Swal.fire({
+            icon:'success',
+            title:"Se agregaron tus nuevas tabas!",
+            showConfirmButton:true,
+            showDenyButton:true,
+            confirmButtonText:'Seguir comprando',
+            denyButtonText:'Ir al carrito'
+        })
     }
 
     useEffect(() =>{
