@@ -1,8 +1,11 @@
 import {useState, useEffect, useContext} from 'react'
 import { CarritoContext } from '../context/carritoContext'
 import { useParams } from 'react-router-dom'
+
 import { obtenerProductoPorId, obtenerProductos } from '../services/productoService'
 import Loading from '../components/Loading'
+import Swal from 'sweetalert2'
+
 
 export default function ProductoView() {
     const [producto, setProducto] = useState({})
@@ -64,9 +67,10 @@ export default function ProductoView() {
                                    Precio S/ {producto.precio}
                                 </span>
                             </div>
+                            
 
                             <div className="card-footer d-grid gap-2">
-                                {/* <button href="#" className="btn btn-success btn-sm">Generar compra</button> */}
+                                {/* <Link to="/Carrito " > <button className="btn btn-success btn-sm d-grid gap-2">Ir a carrito</button></Link>  */}
                                 <button className="btn btn-primary btn-sm" 
                                 onClick={anadirACarritoContext}>
                                     <i className="fas fa-shopping-cart me-2"/> 

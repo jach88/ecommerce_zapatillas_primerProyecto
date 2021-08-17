@@ -7,7 +7,22 @@ const CarritoContextProvider = (props) =>{
     const [carrito, setCarrito] = useState([])
 
     const anadirACarrito = (producto) =>{
-        setCarrito([...carrito, producto ])
+        for (let i = 0; i < carrito.length; i++){
+            if(carrito[i].id_producto === producto.id_producto){
+                //el producto ya se encuentra en el carrito
+                const productoExiste = { 
+                    ...carrito[i],
+                    cantidad: carrito[i].cantidad + 1
+                }
+                let carritoTmp =[...carrito]   //se crea la copia para modificarla
+                carritoTmp.splice(i, 1)        //remueve el producto y aumentará su cantidad
+                carritoTmp.push(productoExiste)  //vuelve a agregar el producto pero con su cantidad
+                setCarrito(carritoTmp) //actualiza el carrito
+                return;
+            }
+        }
+
+        setCarrito([...carrito, {...producto, cantidad:1} ])
     }
 
     return (
