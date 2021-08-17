@@ -1,10 +1,16 @@
+import { useContext } from "react";
+import { CarritoContext } from "../context/carritoContext";
+
 import { Navbar, Container, Nav } from "react-bootstrap"
 import { Link } from "react-router-dom"
-
 import Logo from "../assets/Logo_tienda2.jpg"
-import Fondo from "../assets/inicio.jpg"
+import Badge from '@material-ui/core/Badge';
+import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 
 export default function NavTop() {
+
+    const{ carrito } = useContext(CarritoContext)
+
     return (
         <Navbar bg="primary" variant="dark" expand="lg" >
             <Container>
@@ -29,7 +35,13 @@ export default function NavTop() {
                                 Carrito
                             </Link> 
                         </Nav.Link>
-                        
+                        <Nav.Link>
+                        <Badge badgeContent={carrito.length} color="primary">
+                            <ShoppingCartIcon />
+                        </Badge>
+                        </Nav.Link>    
+
+
                     </Nav>
                 </Navbar.Collapse>
             </Container>

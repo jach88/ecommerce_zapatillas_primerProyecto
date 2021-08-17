@@ -1,10 +1,10 @@
 import {useState, useEffect, useContext} from 'react'
 import { CarritoContext } from '../context/carritoContext'
 import { useParams } from 'react-router-dom'
-
 import { obtenerProductoPorId, obtenerProductos } from '../services/productoService'
 import Loading from '../components/Loading'
 import Swal from 'sweetalert2'
+import { useHistory } from 'react-router'
 
 
 export default function ProductoView() {
@@ -12,6 +12,8 @@ export default function ProductoView() {
     const [cargando, setCargando] = useState(true)
 
     const { id } = useParams()
+
+    const history = useHistory()
 
     const {anadirACarrito} = useContext(CarritoContext)
     
@@ -28,7 +30,7 @@ export default function ProductoView() {
 
     const anadirACarritoContext = async() => {
         anadirACarrito(producto)
-        const resultado = Swal.fire({
+        const resultado = await Swal.fire({
             icon:'success',
             title:"Se agregaron tus nuevas tabas!",
             showConfirmButton:true,
@@ -36,6 +38,11 @@ export default function ProductoView() {
             confirmButtonText:'Seguir comprando',
             denyButtonText:'Ir al carrito'
         })
+        if(resultado.isConfirmed){
+            history.push('/')
+        } else if (resultado.isDenied){
+            history.push('/carrito')
+        }
     }
 
     useEffect(() =>{
