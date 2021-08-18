@@ -3,6 +3,7 @@ import PortadaView from './views/PortadaView'
 import ProductoView from './views/ProductoView'
 import CarritoView from './views/CarritoView'
 import LoginView from './views/LoginView'
+import ListarPersonal from './views/ListarPersonal'
 
 export default function Routes() {
     return (
@@ -11,6 +12,7 @@ export default function Routes() {
             <Route path="/detalle/:id" exact component={ProductoView} />
             <Route path="/carrito" exact component={CarritoView} />
             <Route path="/Login" exact component={LoginView} />
+            <Route path="/listaPersonal" exact component={ListarPersonal}/>
 
         </div>
     )
