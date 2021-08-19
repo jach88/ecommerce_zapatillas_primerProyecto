@@ -1,5 +1,5 @@
 import axios from "axios";
-// import {storage} from "../config/firebase"
+import {storage} from "../config/Firebase"
 const URL=`${process.env.REACT_APP_API_E}/personal`
 const obtenerPersonal=async()=>{
     try {
@@ -78,24 +78,24 @@ const eliminarPersona =async (id)=>{
         throw error
     }
 }
-// Subida de archivos a firebase
-// const subirArchivo=(imagen)=>{
-//     return new Promise((resolve,reject)=>{
-//         let refStorage=storage.ref(`fotos/${imagen.name}`)
-//         let tareaSubir=refStorage.put(imagen)
+const subirArchivo = (imagen) => {
+    return new Promise((resolve, reject) => {
+        console.log(imagen)
+        let refStorage = storage.ref(`fotos/${imagen.name}`)
+        let tareaSubir = refStorage.put(imagen)
 
-//         tareaSubir.obtenerPersonaPorId("state_changed",
-//         () => {},
-//             (error) => {reject(error)},
-//             () => {
-//                 tareaSubir.snapshot.ref.getDownloadURL()
-//                 .then((urlImagen) => {
-//                     resolve(urlImagen)
-//                 })
-//             }
-//         )
-//     })
-// }
+        tareaSubir.on("state_changed",
+            () => {},
+            (error) => {reject(error)},
+            () => {
+                tareaSubir.snapshot.ref.getDownloadURL()
+                .then((urlImagen) => {
+                    resolve(urlImagen)
+                })
+            }
+        )
+    })
+}
 
 
 
@@ -106,6 +106,6 @@ export{
     editarPersona,
     eliminarPersona,
     session,
-    // subirArchivo
+    subirArchivo
     
 }
