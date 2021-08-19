@@ -32,7 +32,7 @@ export default function ProductoView() {
         anadirACarrito(producto)
         const resultado = await Swal.fire({
             icon:'success',
-            title:"Se agregaron tus nuevas tabas!",
+            title:"Añadido al carrito correctamente!",
             showConfirmButton:true,
             showDenyButton:true,
             confirmButtonText:'Seguir comprando',

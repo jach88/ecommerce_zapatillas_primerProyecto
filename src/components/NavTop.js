@@ -44,17 +44,14 @@ export default function NavTop() {
             </Link>
           </Nav.Link>
           <Nav.Link>
-            <Link
-              to="/Carrito"
-              style={{ color: "white", textDecoration: "None" }}
-            >
-              Carrito
-            </Link>
+            
           </Nav.Link>
           <Nav.Link>
+              <Link to="/Carrito">
             <Badge badgeContent={totalCarrito} color="secondary">
               <ShoppingCartIcon style={{ color: "white" }} />
             </Badge>
+            </Link>
           </Nav.Link>
         </Navbar.Collapse>
       </Container>
