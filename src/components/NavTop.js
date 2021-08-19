@@ -17,7 +17,8 @@ export default function NavTop() {
   return (
     <Navbar bg="primary" variant="dark" expand="lg">
       <Container>
-        <Navbar.Brand to="/">
+          <Link to="/">
+        <Navbar.Brand >
           <img
             src={Logo}
             alt="logo"
@@ -25,6 +26,7 @@ export default function NavTop() {
             style={{ borderRadius: "10%" }}
           />
         </Navbar.Brand>
+        </Link>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
