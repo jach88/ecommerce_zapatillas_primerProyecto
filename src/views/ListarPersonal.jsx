@@ -2,7 +2,7 @@ import { useState, useEffect,useRef } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css'
 import{Table,Button,Container,Modal,Form } from "react-bootstrap";
 
-import { obtenerPersonal, crearPersonal,obtenerPersonaPorId,eliminarPersona,subirArchivo} from "../services/personalService";
+import { obtenerPersonal, crearPersonal,obtenerPersonaPorId,eliminarPersona,subirArchivo, editarPersona} from "../services/personalService";
 import { obtenerCargos } from "../services/cargoService";
 
 import Swal from "sweetalert2";
@@ -50,14 +50,18 @@ export default function ListarPersonal() {
 
 let handleActualizar=(obj)=>{
   setValue({
-    idpersonal:obj.idpersonal,
+    //idpersonal:obj.idpersonal,
     nombre: obj.nombre,
     apellido: obj.apellido,
     telefono: obj.telefono,
+    estado:obj.estado,
+    usuario:obj.usuario,
+    contrasena:obj.contrasena,
     idcargo: obj.idcargo
     
   })
 }
+
 
   let handleInput = (e) => {
     setValue({
@@ -65,9 +69,13 @@ let handleActualizar=(obj)=>{
       [e.target.name]: e.target.value,
     });
   };
+
+  //registrar
   const manejarSubmit = async (e) => {
     e.preventDefault();
     console.log(e);
+    console.log(empleado);
+
     try {
       const urlArchivo = await subirArchivo(imagen) //primero subimos la imagen y obtenemos la URL
       const rpta = await crearPersonal({ ...empleado,perfil:urlArchivo});//ya con la imagen obtenida lo agregamos al producto a Crear
@@ -84,6 +92,29 @@ let handleActualizar=(obj)=>{
       console.error(error);
     }
   };
+
+  const manejarSubmitEdit = async (e) => {
+    e.preventDefault();
+    console.log(e);
+    console.log(empleado);
+
+    if(typeof imagen !== undefined){ //si es que es diferente de undefined hay imagen
+      const urlArchivo = await subirArchivo(imagen)
+      await editarPersona({...empleado, perfil:urlArchivo}, ids)
+  }else{
+    await  editarPersona(empleado, ids)
+  }
+  await Swal.fire({
+    icon: "success",
+    title: "Personal actualizado!!",
+    showConfirmButton: false,
+    timer: 3000,
+  });
+  setValue("")
+
+    
+  };
+
 
   useEffect(() => {
     getPersonal();
@@ -344,7 +375,8 @@ let handleActualizar=(obj)=>{
                   variant="primary" 
                   
                   form="formRegistrar"
-                  onClick={(e)=>{manejarSubmit(e)
+                  onClick={(e)=>{
+                  manejarSubmitEdit(e)
                   handleClose()
                   
                   console.log(e.target.value)}}>
