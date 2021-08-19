@@ -1,17 +1,23 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect,useRef } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css'
 import{Table,Button,Container,Modal,Form } from "react-bootstrap";
 
-import { obtenerPersonal, crearPersonal,obtenerPersonaPorId,eliminarPersona} from "../services/personalService";
+import { obtenerPersonal, crearPersonal,obtenerPersonaPorId,eliminarPersona,subirArchivo, editarPersona} from "../services/personalService";
 import { obtenerCargos } from "../services/cargoService";
 
 import Swal from "sweetalert2";
+let imagen
+
 export default function ListarPersonal() {
+  //manejo de modales
   const [show, setShow] = useState(false);
   const handleShow = () =>{ setShow(true)};
   const handleClose = () => setShow(false);
-  const [cargos, setCargos] = useState([]);
   const [tipoModal,setTipoM]=useState("");
+
+  const [cargos, setCargos] = useState([]);
+  const inputFile = useRef()
+  
   const getCargos = async () => {
     try {
       const cargosObtenidos = await obtenerCargos();
@@ -27,30 +33,35 @@ export default function ListarPersonal() {
 
 
   const [ids, setIds]=useState()
+
   //lista del personal
   const [personal, setPersonal] = useState([]);
-  //arreglo del personal agregar
 
+  //arreglo del personal agregar
   const [empleado, setValue] = useState({
     nombre: "",
     apellido: "",
     telefono: "",
-    //perfil:'',
-    idcargo: "",
+    usuario:"",
+    contrasena:"",
+    idcargo: ""
   });
 
 
 let handleActualizar=(obj)=>{
   setValue({
-    idpersonal:obj.idpersonal,
+    //idpersonal:obj.idpersonal,
     nombre: obj.nombre,
     apellido: obj.apellido,
     telefono: obj.telefono,
-    //perfil:'',
+    estado:obj.estado,
+    usuario:obj.usuario,
+    contrasena:obj.contrasena,
     idcargo: obj.idcargo
     
   })
 }
+
 
   let handleInput = (e) => {
     setValue({
@@ -58,13 +69,16 @@ let handleActualizar=(obj)=>{
       [e.target.name]: e.target.value,
     });
   };
+
+  //registrar
   const manejarSubmit = async (e) => {
     e.preventDefault();
     console.log(e);
+    console.log(empleado);
+
     try {
-      //const urlArchivo = await subirArchivo(imagen) //primero subimos la imagen y obtenemos la URL
-      const rpta = await crearPersonal({ ...empleado });
-      console.log(rpta); //ya con la imagen obtenida lo agregamos al producto a Crear
+      const urlArchivo = await subirArchivo(imagen) //primero subimos la imagen y obtenemos la URL
+      const rpta = await crearPersonal({ ...empleado,perfil:urlArchivo});//ya con la imagen obtenida lo agregamos al producto a Crear
       getPersonal();
       await Swal.fire({
         icon: "success",
@@ -73,16 +87,40 @@ let handleActualizar=(obj)=>{
         timer: 3000,
       });
       setValue("")
-      console.log(empleado)
+
     } catch (error) {
       console.error(error);
     }
   };
 
+  const manejarSubmitEdit = async (e) => {
+    e.preventDefault();
+    console.log(e);
+    console.log(empleado);
+
+    if(typeof imagen !== undefined){ //si es que es diferente de undefined hay imagen
+      const urlArchivo = await subirArchivo(imagen)
+      await editarPersona({...empleado, perfil:urlArchivo}, ids)
+  }else{
+    await  editarPersona(empleado, ids)
+  }
+  await Swal.fire({
+    icon: "success",
+    title: "Personal actualizado!!",
+    showConfirmButton: false,
+    timer: 3000,
+  });
+  setValue("")
+
+    
+  };
+
+
   useEffect(() => {
     getPersonal();
+    
   });
-
+ 
 
 
   const getPersonal = async () => {
@@ -116,6 +154,12 @@ let handleActualizar=(obj)=>{
     }
     
   }
+
+  const manejarImagen = (e) => {
+    e.preventDefault()
+    // console.log(e.target.files) //es un arreglo de archivos
+    imagen = e.target.files[0]
+}
 
   return (
     <div>
@@ -154,10 +198,11 @@ let handleActualizar=(obj)=>{
                 <td className="fw-lighter">{prod.apellido}</td>
                 <td className="fw-lighter">{prod.telefono}</td>
                 <td className="fw-lighter">{prod.estado}</td>
-                <td className="fw-lighter">{prod.perfil}</td>
+                <td className="fw-lighter">
+                  <img src={prod.perfil} alt="aea" width="80" height="80" />
+                </td>
                 <td className="fw-lighter">{prod.usuario}</td>
                 <td className="fw-lighter">{prod.contrasena}</td>
-                <td className="fw-lighter"></td>
 
                 <td className="fw-lighter">{prod.idcargo}</td>
                 <td className="fw-lighter">
@@ -245,13 +290,46 @@ let handleActualizar=(obj)=>{
                     />
                   </div>
                   <div className="mb-3">
+                    <label>Usuario</label>
+                    <input
+                      name="usuario"
+                      type="text"
+                      className="form-control"
+                      value={empleado ? empleado.usuario : ' '}
+                      onChange={(e) => {
+                        handleInput(e);
+                      }}
+                    />
+                  </div>
+                  <div className="mb-3">
+                    <label>Contraseña</label>
+                    <input
+                      name="contrasena"
+                      type="text"
+                      className="form-control"
+                      value={empleado ? empleado.contrasena : ' '}
+                      onChange={(e) => {
+                        handleInput(e);
+                      }}
+                    />
+                  </div>
+                  <div className="mb-3">
                     <label>Estado</label>
                     <input name="estado" type="text" className="form-control" />
                   </div>
+                  
+
                   <div className="mb-3">
-                    <label>Perfil</label>
-                    <input name="perfil" type="email" className="form-control" />
-                  </div>
+                    <label className="form-label">Perfil</label>
+                    <input 
+                        type="file"
+                        className="form-control"
+                        ref={inputFile}
+                        onChange={(e) => {manejarImagen(e)}}
+                    />
+                </div>
+
+
                   <div className="mb-3">
                     <label>Cargo</label>
                     <select
@@ -297,7 +375,8 @@ let handleActualizar=(obj)=>{
                   variant="primary" 
                   
                   form="formRegistrar"
-                  onClick={(e)=>{manejarSubmit(e)
+                  onClick={(e)=>{
+                  manejarSubmitEdit(e)
                   handleClose()
                   
                   console.log(e.target.value)}}>
