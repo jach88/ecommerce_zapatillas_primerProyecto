@@ -32,7 +32,7 @@ export default function NavTop() {
           <Nav className="me-auto">
             <Nav.Link>
               <Link to="/" style={{ color: "white", textDecoration: "None" }}>
-                Inicio
+              <i class="fas fa-home"></i> Inicio
               </Link>
             </Nav.Link>
           </Nav>
@@ -41,8 +41,7 @@ export default function NavTop() {
             <Link
               to="/Login"
               style={{ color: "white", textDecoration: "None" }}
-            >
-              Login
+            ><i class="fas fa-user"></i> Login
             </Link>
           </Nav.Link>
           <Nav.Link>
