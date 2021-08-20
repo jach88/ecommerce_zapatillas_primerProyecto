@@ -4,8 +4,7 @@ import { CarritoContext } from "../context/carritoContext"
 export default function CarritoView() {
 
         const { carrito } = useContext(CarritoContext)
-
-
+        
         return (
             <div className="container">
                 <div className="my-4 text-center">

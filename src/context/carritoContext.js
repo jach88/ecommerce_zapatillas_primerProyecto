@@ -20,11 +20,12 @@ const CarritoContextProvider = (props) =>{
                 setCarrito(carritoTmp) //actualiza el carrito
                 return;
             }
+            
         }
 
         setCarrito([...carrito, {...producto, cantidad:1} ])
     }
-
+    
     return (
         <CarritoContext.Provider value={{carrito, anadirACarrito}}>
             {props.children}
@@ -32,4 +33,18 @@ const CarritoContextProvider = (props) =>{
     )
 }
 
+// const CarritoEliminarElemento = (props) =>{
+
+// const [carrito, setCarrito] = useState([])
+
+// const eliminarDeCarrito = (producto) =>{
+//     for (let i = 0; i < carrito.length; i++){
+//         if(carrito[i].id_producto != producto.id_producto){
+//             let carritoTmp =[...carrito]
+//             carritoTmp.splice(i, 1)  
+//         }
+//     }
+// } return (<CarritoEliminarElemento)
+// }
 export default CarritoContextProvider
+// export default 

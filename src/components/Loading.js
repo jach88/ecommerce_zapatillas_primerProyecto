@@ -2,7 +2,7 @@ export default function Loading() {
     //modificando estilo del spinner
     return (
         <div style={{
-            position:'fixed',
+            position:'relative',
             top:'0',
             left:'0',
             width:'100vw',
@@ -14,7 +14,7 @@ export default function Loading() {
                 style={{
                     color:'navy',
                     position:'absolute',
-                    top:'calc(50% - 50px',
+                    top:'calc(40% - 100px',
                     left:'calc(50% - 50px'
                 }}
             />

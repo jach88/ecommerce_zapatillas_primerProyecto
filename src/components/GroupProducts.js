@@ -7,11 +7,11 @@ export default function GroupProducts({productos}) {
     return (
         <div className='container' >
             
-            <div className="row mt-5">
+            <div className="row mt-5 mb-1">
                 {productos.map((prod,i) => (
                     <div className="col-6 col-lg-3 "key={i}>
                         <br></br>
-                        <Link className="card mb-3 rounded border-primary border-1" to={`/detalle/${prod.id_producto}`}>
+                        <Link className="card mb-3 rounded border-primary border-2" to={`/detalle/${prod.id_producto}`}>
                             <img 
                                 src={prod.imagen} 
                                 className="card-img-top"
