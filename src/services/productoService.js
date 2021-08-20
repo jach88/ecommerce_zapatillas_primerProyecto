@@ -19,6 +19,14 @@ const obtenerProductoPorId = async(id) =>{
         throw error
     }
 }
+const eliminarProducto = async(id) =>{
+    try {
+        let {data} = await axios.delete(`${URL}/${id}`)
+        return data // aqui es donde obtenemos los datos del mockapi
+    } catch (error) {
+        throw error
+    }
+}
 
 const crearProducto = async (nuevoProducto) => {
     try {
@@ -71,5 +79,6 @@ export{
     obtenerProductos,
     crearProducto,
     editarProducto,
-    subirArchivo
+    subirArchivo,
+    eliminarProducto
 }

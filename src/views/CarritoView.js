@@ -31,9 +31,7 @@ export default function CarritoView() {
                                 <td>{prod.cantidad}</td>
                                 <td>{prod.precio}</td>
                                 <td>{prod.cantidad*prod.precio}</td>
-                                <td><btn type="button" className="btn"><i class="fas fa-trash-alt"></i> </btn></td>
                             </tr>
-                            
                         ))}
                     </tbody>
 
