@@ -13,10 +13,11 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import zapatillaLogin from '../assets/zapatillaLogin.jpg'
-// import { session } from '../services/personalService';
+import { session } from '../services/personalService';
 import '../css/login1.css'
 import { useState, useEffect } from "react";
-
+import { Route, Redirect } from "react-router-dom";
+let rpta
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -56,17 +57,21 @@ export default function LoginView() {
         })
     }
 
-    // const handleSubmit= async (e)=>{
-    //     e.preventDefault();
+    const handleSubmit= async (e)=>{
+        e.preventDefault();
         
-    //         const rpta=await session(sesion)
+            rpta=await session(sesion)
+            if(rpta.message){
+              console.log(rpta.statusCode)
+              alert(rpta.message+", Error: "+rpta.statusCode)
+            }
+            else{
+              alert("Bienvenido a la intranet: "+rpta.nombre+" "+rpta.apellido)
+              console.log(rpta.nombre)
+              window.location = '/menu';
+            }
             
-    //         console.log(rpta)
-            
-            
-            
-        
-    // }
+    }
 
 
 
@@ -117,13 +122,14 @@ export default function LoginView() {
               control={<Checkbox value="remember" color="primary" />}
               label="Recordar contraseña"
             />
+           
             <Button
               type="submit"
               fullWidth
               variant="contained"
               color="primary"
-            //   className={classes.submit}
-            //   onClick={(e)=>{handleSubmit(e)}}
+               className={classes.submit}
+               onClick={(e)=>{handleSubmit(e)}}
             >
               INICIAR SESION
             </Button>

@@ -3,6 +3,7 @@ import { CarritoContext } from '../context/carritoContext'
 
 export default function CheckoutView() {
 
+    
     const { carrito } = useContext(CarritoContext)
 
     return (
@@ -30,8 +31,8 @@ export default function CheckoutView() {
                                     S/ {prod.cantidad * prod.precio}
                                 </small>
                             </li>
-                        ))}
-
+                        ))}                       
+                       
                     </ul>
                 </div>
             </div>

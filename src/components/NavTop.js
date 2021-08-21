@@ -45,9 +45,9 @@ export default function NavTop() {
 
           <Nav.Link>
             <Link
-              to="/Login"
+              to="/intranet"
               style={{ color: "white", textDecoration: "None" }}
-            ><i class="fas fa-user"></i> Login
+            ><i class="fas fa-user"></i> Intranet
             </Link>
           </Nav.Link>
           
@@ -61,12 +61,7 @@ export default function NavTop() {
             </Link>
           </Nav.Link>
 
-          <Nav.Link>
-              <Link to="/checkout">
-                  Comprar!
-              </Link>
-          </Nav.Link>
-          
+                    
         </Navbar.Collapse>
       </Container>
     </Navbar>

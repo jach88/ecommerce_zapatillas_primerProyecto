@@ -1,12 +1,38 @@
 import { LaptopWindows } from "@material-ui/icons";
 import { useContext, useState,useEffect } from "react";
 import { CarritoContext } from "../context/carritoContext";
+import imageBuy from "../assets/tienda-en-linea.png"
+import { Link } from "react-router-dom";
+
+let montoTotal=0
+let total
 
 export default function CarritoView() {
   const { carrito, setCarrito } = useContext(CarritoContext);
   
   const[carro, setCarro]=useState(carrito)
   
+  const totalCarrito = carrito.reduce((total, item) => {
+    return total + item.cantidad;
+  }, 0);
+
+  // const montoCarrito = carrito.reduce((total, item) => {
+  //   return total + item.cantidad;
+  // }, 0);
+
+  const calculo=(cantidad,precio)=>{
+    total=cantidad*precio
+    
+    
+    return
+  }
+  const calculoT=()=>{
+    let ctotal
+    
+    console.log(ctotal)
+    
+  }
+  let hola=0
 
   useEffect(()=>{
       setCarro(carro)
@@ -19,7 +45,7 @@ export default function CarritoView() {
           Carrito de Compras
         </h1>
       </div>
-
+      
       <table className="table">
         <thead>
           <tr>
@@ -38,12 +64,28 @@ export default function CarritoView() {
               <td>{prod.nombre}</td>
               <td>{prod.cantidad}</td>
               <td>{prod.precio}</td>
-              <td>{prod.cantidad * prod.precio}</td>
-              
+              <td>{calculo(prod.cantidad,prod.precio),total} </td>
+                                
             </tr>
+            
           ))}
         </tbody>
+        <tfoot>
+          <div>Total Carrito {totalCarrito}</div>
+          <div>Total Carrito {
+            
+          carro.map((prod,i)=>{
+              montoTotal=prod.cantidad*prod.precio
+              hola=hola+montoTotal
+              montoTotal=0
+              console.log(hola)
+          })}</div>
+          {hola}
+        </tfoot>
       </table>
+       
+      <Link  to="/Checkout"><button className="btn btn-primary">Comprar!</button></Link>      
+
     </div>
   );
 }

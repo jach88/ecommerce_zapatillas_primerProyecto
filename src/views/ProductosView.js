@@ -79,7 +79,7 @@ export default function ProductosView() {
                                     placeholder="Ingrese el nombre o descripcion"
                                     ref={inputBusqueda}
                                 />
-                                <button className="btn btn-dark" onClick={ejecutarBusqueda}>
+                                <button className="btn btn-primary" onClick={ejecutarBusqueda}>
                                     <i className="fas fa-search"/>
 
                                 </button>
