@@ -21,16 +21,19 @@ const CarritoContextProvider = (props) =>{
                 //actualiza el carrito
                 return;
             }
+            
         }
 
         setCarrito([...carrito, {...producto, cantidad:1} ])
     }
+
 
     const eliminarArr=(id)=>{
         carrito.splice(id,1)
         setCarrito(carrito)
         return
     }
+
 
     return (
         <CarritoContext.Provider value={{carrito, anadirACarrito,eliminarArr,setCarrito}}>
@@ -39,4 +42,18 @@ const CarritoContextProvider = (props) =>{
     )
 }
 
+// const CarritoEliminarElemento = (props) =>{
+
+// const [carrito, setCarrito] = useState([])
+
+// const eliminarDeCarrito = (producto) =>{
+//     for (let i = 0; i < carrito.length; i++){
+//         if(carrito[i].id_producto != producto.id_producto){
+//             let carritoTmp =[...carrito]
+//             carritoTmp.splice(i, 1)  
+//         }
+//     }
+// } return (<CarritoEliminarElemento)
+// }
 export default CarritoContextProvider
+// export default 

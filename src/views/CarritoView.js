@@ -11,6 +11,7 @@ export default function CarritoView() {
    carro.splice(i,1)
    
 
+
     setCarro(carro);
     console.log(carro);
     window.location.reload()
@@ -38,6 +39,18 @@ export default function CarritoView() {
           </tr>
         </thead>
         <tbody>
+
+        const { carrito } = useContext(CarritoContext)
+        
+        return (
+            <div className="container">
+                <div className="my-4 text-center">
+                    <h1 className="fw-bold">
+                        <i className="fas fa-shopping-cart me-3" />
+                        Carrito de Compras
+                    </h1>
+                </div>
+
 
           {
               carro &&
