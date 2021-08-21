@@ -14,7 +14,7 @@ export default function Loading() {
                 style={{
                     color:'navy',
                     position:'absolute',
-                    top:'calc(40% - 100px',
+                    top:'calc(20% - 100px',
                     left:'calc(50% - 50px'
                 }}
             />
