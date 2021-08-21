@@ -22,7 +22,8 @@ export default function NavTop() {
           <img
             src={Logo}
             alt="logo"
-            width="150"
+            width="50"
+            height="50"
             style={{ borderRadius: "10%" }}
           />
         </Navbar.Brand>
