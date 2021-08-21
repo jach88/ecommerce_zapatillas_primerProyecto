@@ -32,7 +32,7 @@ export default function CarritoView() {
     console.log(ctotal)
     
   }
-  let hola=0
+  let montoFinal=0
 
   useEffect(()=>{
       setCarro(carro)
@@ -72,15 +72,15 @@ export default function CarritoView() {
         </tbody>
         <tfoot>
           <div>Total Carrito {totalCarrito}</div>
-          <div>Total Carrito {
+          <div>Total Monto {
             
           carro.map((prod,i)=>{
               montoTotal=prod.cantidad*prod.precio
-              hola=hola+montoTotal
+              montoFinal=montoFinal+montoTotal
               montoTotal=0
-              console.log(hola)
+              
           })}</div>
-          {hola}
+          {montoFinal}
         </tfoot>
       </table>
        
