@@ -55,7 +55,7 @@ export default function ProductosView() {
                 <div className="container text-center">
                     <h1 className="my-4">
                         <i className="fas fa-gifts me-3" />
-                        Nuestros Productos
+                        Nuestras Zapatillas
                     </h1>
                     <div className="row my-2">
                         

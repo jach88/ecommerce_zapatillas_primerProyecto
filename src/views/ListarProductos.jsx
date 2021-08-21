@@ -1,7 +1,8 @@
 import React from "react";
 import { useState, useEffect, useRef } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Table, Button, Container, Modal, Form } from "react-bootstrap";
+import { Table, Container, Modal } from "react-bootstrap";
+import { useForm } from "react-hook-form";
 import {
   obtenerProductos,
   crearProducto,
@@ -11,31 +12,47 @@ import {
 } from "../services/productoService";
 import Swal from "sweetalert2";
 let imagen;
-let arr;
+let todo;
 export default function ListarProductos() {
   const [show, setShow] = useState(false);
   const handleShow = () => {
     setShow(true);
   };
-  const handleClose = () => setShow(false);
+  const handleClose = () => {setShow(false)
+    reset({
+      nombre: "",
+      precio: "",
+      stock:"",
+      tallas:"",
+      descripcion:""
+
+    });};
   const [tipoModal, setTipoM] = useState("");
   const [idp, setIdp] = useState();
   const inputFile = useRef();
 
   const [produtos, setProductos] = useState([]);
 
-  const [error, setError] = useState({
-    nombre:"",
-    tallas:""
-  });
+ 
 
   const [rProducto, setRproducto] = useState({
     nombre: "",
     precio: "",
     stock: "",
+    tallas:[],
     marca: "",
     descripcion: "",
   });
+
+  
+  const {
+		register,
+		handleSubmit,
+    reset,
+    setValue,
+		formState: { errors },
+	} = useForm();
+
   let handleActualizar = (obj) => {
     setRproducto({
       //idpersonal:obj.idpersonal,
@@ -47,14 +64,14 @@ export default function ListarProductos() {
       descripcion: obj.descripcion,
     });
   };
-  const manejarSubmitEdit = async (e) => {
-    e.preventDefault();
+  const manejarSubmitEdit = async (a) => {
+    
 
     if (typeof imagen !== undefined) {
       //si es que es diferente de undefined hay imagen
       const urlArchivo = await subirArchivo(imagen);
-      await editarProducto(
-        { ...rProducto, imagen: urlArchivo, tallas: arr },
+     const rpta= await editarProducto(
+        { ...a, imagen: urlArchivo },
         idp
       );
       await Swal.fire({
@@ -63,10 +80,11 @@ export default function ListarProductos() {
         showConfirmButton: false,
         timer: 3000,
       });
+      reset(rpta);
       setRproducto("");
       getProductos();
     } else {
-      await editarProducto(rProducto, idp);
+      await editarProducto(a, idp);
       await Swal.fire({
         icon: "success",
         title: "Producto actualizado!!",
@@ -84,32 +102,26 @@ export default function ListarProductos() {
       [e.target.name]: e.target.value,
     });
   };
-  const manejarSubmit = async (e) => {
-    e.preventDefault();
-
-    if(rProducto.tallas==null){
-      setError({tallas:"no se permite campos vacios"})
-      console.log("vacio")
-      console.log(error.tallas)
+  const manejarSubmit = async (a) => {
+    
+   
+    try {
+      const urlArchivo = await subirArchivo(imagen); //primero subimos la imagen y obtenemos la URL
+      const rpta = await crearProducto({
+        ...a,
+        imagen: urlArchivo
+      }); //ya con la imagen obtenida lo agregamos al producto a Crear
+      getProductos();
+      await Swal.fire({
+        icon: "success",
+        title: "Producto creado!!",
+        showConfirmButton: false,
+        timer: 3000,
+      });
+      setRproducto("");
+    } catch (error) {
+      console.error(error);
     }
-    // try {
-    //   const urlArchivo = await subirArchivo(imagen); //primero subimos la imagen y obtenemos la URL
-    //   const rpta = await crearProducto({
-    //     ...rProducto,
-    //     imagen: urlArchivo,
-    //     tallas: arr,
-    //   }); //ya con la imagen obtenida lo agregamos al producto a Crear
-    //   getProductos();
-    //   await Swal.fire({
-    //     icon: "success",
-    //     title: "Producto creado!!",
-    //     showConfirmButton: false,
-    //     timer: 3000,
-    //   });
-    //   setRproducto("");
-    // } catch (error) {
-    //   console.error(error);
-    // }
   };
 
   const getProductos = async () => {
@@ -126,22 +138,17 @@ export default function ListarProductos() {
   }, []);
 
   const manejarImagen = (e) => {
-    e.preventDefault();
+    e.preventDefault()
     // console.log(e.target.files) //es un arreglo de archivos
-    imagen = e.target.files[0];
-  };
-  const manejarTallas = (e) => {
-    e.preventDefault();
-
-    arr = e.target.value.split(",");
-    console.log(arr);
-  };
+    imagen = e.target.files[0]
+}
+ 
 
   const handleEliminar = (id) => {
     try {
       Swal.fire({
         icon: "warning",
-        title: `Desea eliminar el personal`,
+        title: `Desea eliminar el producto?`,
         showConfirmButton: true,
         confirmButtonText: "Si, eliminar",
         showCancelButton: true,
@@ -158,6 +165,40 @@ export default function ListarProductos() {
     }
   };
 
+  // let handleInputA = (datos) => {
+  //   setRproducto({
+  //     ...rProducto,
+  //     [e.target.name]: e.target.value,
+  //   });
+  // };
+
+
+  const recibirSubmit=(data)=>{
+    
+    todo=data
+    if(tipoModal==="Registrar"){
+      setRproducto(data)
+      
+      manejarSubmit(todo)
+      handleClose()
+    }else{
+      setRproducto(data)
+      manejarSubmitEdit(todo)
+      handleClose()
+    }
+   
+    reset({
+      nombre: "",
+      precio: "",
+      stock:"",
+      tallas:"",
+      descripcion:""
+
+    });
+    
+    // manejarImagen(data.imagen)
+    // console.log(data.imagen)
+  }
   return (
     <div>
       <Container>
@@ -167,7 +208,13 @@ export default function ListarProductos() {
           onClick={() => {
             setShow(!show);
             setTipoM("Registrar");
-            setRproducto(null);
+            setRproducto({
+              nombre:"",
+              precio:"",
+              marca:"",
+              descripcion:"",
+              stock:""
+            });
           }}
         >
           <i className="fas fa-user-plus" style={{ color: "green" }}></i>
@@ -210,6 +257,12 @@ export default function ListarProductos() {
                       setIdp(prod.id_producto);
                       setTipoM("Actualizar");
                       handleActualizar(prod);
+                      setValue("nombre", prod.nombre);
+                      setValue("precio", prod.precio);
+                      setValue("stock", prod.stock);
+                      setValue("descripcion", prod.descripcion);
+                      setValue("marca", prod.marca);
+                      setValue("tallas", prod.tallas);
                     }}
                   >
                     <i className="fas fa-user-edit"> </i>
@@ -240,134 +293,116 @@ export default function ListarProductos() {
           )}
         </Modal.Header>
         <Modal.Body>
-          <Form
-            onSubmit={(e) => {
-              manejarSubmit(e);
-            }}
-            id="modalRegistrar"
-          >
-            <div className="mb-3">
-              <label>Nombre</label>
-              <input
-                name="nombre"
-                type="text"
-                className="form-control"
-                value={rProducto ? rProducto.nombre : " "}
-                onChange={(e) => {
-                  handleInput(e);
-                }}
-              />
-            </div>
-            <div className="mb-3">
-              <label className="form-label">Precio</label>
-              <input
-                name="precio"
-                type="text"
-                className="form-control"
-                value={rProducto ? rProducto.precio : " "}
-                onChange={(e) => {
-                  handleInput(e);
-                }}
-              />
-            </div>
-            <div className="mb-3">
-              <label>Stock</label>
-              <input
-                name="stock"
-                type="text"
-                className="form-control"
-                value={rProducto ? rProducto.stock : " "}
-                onChange={(e) => {
-                  handleInput(e);
-                }}
-              />
-            </div>
-            <div className="mb-3">
-              <label>Marca</label>
-              <input
-                name="marca"
-                type="text"
-                className="form-control"
-                value={rProducto ? rProducto.marca : " "}
-                onChange={(e) => {
-                  handleInput(e);
-                }}
-              />
-            </div>
+        <form onSubmit={handleSubmit(recibirSubmit)}>
+						<div className="mb-2">
+							<label className="form-label">Nombres </label>
+							<input
+								type="text"
+								className="form-control"
+								placeholder="nombre"
+								//{...register("nombre", {validaciones})}
+								{...register("nombre", { required: true })}
+							/>
+							{errors.nombre && (
+								<small className="text-danger">Este campo es obligatorio</small>
+							)}
+						</div>
+            <div className="mb-2">
+							<label className="form-label">Precio</label>
+							<input
+								type="text"
+								className="form-control"
+								placeholder="Precio"
+								//{...register("nombre", {validaciones})}
+								{...register("precio", { required: true },{pattern: /^[0-9]$/})}
+							/>
+							{errors.precio && (
+								<small className="text-danger">Este campo es obligatorio</small>
+							)}
+						</div>
+            <div className="mb-2">
+							<label className="form-label">Stock</label>
+							<input
+								type="text"
+								className="form-control"
+								placeholder="Stock"
+								//{...register("nombre", {validaciones})}
+								{...register("stock", { required: true })}
+							/>
+							{errors.stock && (
+								<small className="text-danger">Este campo es obligatorio</small>
+							)}
+						</div>
+            <div className="mb-2">
+							<label className="form-label">Marca</label>
+							<input
+								type="text"
+								className="form-control"
+								placeholder="Marca"
+								//{...register("nombre", {validaciones})}
+								{...register("marca", { required: true })}
+							/>
+							{errors.marca && (
+								<small className="text-danger">Este campo es obligatorio</small>
+							)}
+						</div>
 
-            <div className="mb-3">
-              <label className="form-label">Imagen</label>
-              <input
-                type="file"
-                className="form-control"
+
+            <div className="mb-2">
+							<label className="form-label">Imagen</label>
+							<input
+								 type="file"
+								className="form-control"
                 ref={inputFile}
-                onChange={(e) => {
-                  manejarImagen(e);
-                }}
-              />
-            </div>
-
-            <div className="mb-3">
-              <label>Tallas</label>
-              <input
-                name="tallas"
-                type="text"
-                className="form-control"
-                required="true"
-                value={rProducto ? rProducto.tallas : " "}
-                onChange={(e) => {
-                  handleInput(e);
-                  manejarTallas(e);
-                }}
-              />
-            </div>
-            <div className="mb-3">
-              <label>Descripcion</label>
-              <input
-                name="descripcion"
-                type="text"
-                className="form-control"
-                value={rProducto ? rProducto.descripcion : " "}
-                onChange={(e) => {
-                  handleInput(e);
-                }}
-              />
-            </div>
-          </Form>
+                onChange={(e) => {manejarImagen(e)}}
+								//{...register("nombre", {validaciones})}
+								
+							/>
+						
+						</div>
+            <div className="mb-2">
+							<label className="form-label">Talla</label>
+							<input
+								type="text"
+								className="form-control"
+								placeholder="Talla"
+								//{...register("nombre", {validaciones})}
+								{...register("tallas", { required: true })}
+							/>
+							{errors.tallas && (
+								<small className="text-danger">Este campo es obligatorio</small>
+							)}
+						</div>
+            <div className="mb-2">
+							<label className="form-label">Descripcion</label>
+							<input
+								type="text"
+								className="form-control"
+								placeholder="Descripcion"
+								//{...register("nombre", {validaciones})}
+								{...register("descripcion", { required: true })}
+							/>
+							{errors.descripcion && (
+								<small className="text-danger">Este campo es obligatorio</small>
+							)}
+						</div>
+				
+          <Modal.Footer>
+            {tipoModal==='Registrar'?
+             <button type="submit" className="btn btn-blue"
+              
+             >registrar</button>:
+             <button type="submit" className="btn btn-blue"
+              
+             >Actualizar</button>
+            }
+           
+          </Modal.Footer>
+          
+          </form>
         </Modal.Body>
 
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            Cancelar
-          </Button>
-          {tipoModal === "Registrar" ? (
-            <Button
-              type="submit"
-              variant="primary"
-              form="formRegistrar"
-              onClick={(e) => {
-                manejarSubmit(e);
-                //handleClose();
-
-                console.log(e.target.value);
-              }}
-            >
-              Registrar
-            </Button>
-          ) : (
-            <Button
-              type="submit"
-              variant="primary"
-              form="formRegistrar"
-              onClick={(e) => {
-                manejarSubmitEdit(e);
-                handleClose();
-              }}
-            >
-              Actualizar
-            </Button>
-          )}
-        </Modal.Footer>
+       
       </Modal>
     </div>
   );

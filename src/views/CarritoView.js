@@ -3,16 +3,10 @@ import { useContext, useState,useEffect } from "react";
 import { CarritoContext } from "../context/carritoContext";
 
 export default function CarritoView() {
-  const { carrito, eliminarArr, setCarrito } = useContext(CarritoContext);
+  const { carrito, setCarrito } = useContext(CarritoContext);
   
   const[carro, setCarro]=useState(carrito)
-  const eliminar = (i) => {
-    eliminarArr(i)
-   carro.splice(i,1)
-    setCarro(carro);
-    console.log(carro);
-    window.location.reload()
-  };
+  
 
   useEffect(()=>{
       setCarro(carro)
@@ -45,17 +39,7 @@ export default function CarritoView() {
               <td>{prod.cantidad}</td>
               <td>{prod.precio}</td>
               <td>{prod.cantidad * prod.precio}</td>
-              <td>
-                <button
-                  type="button"
-                  className="btn"
-                  onClick={() => {
-                    eliminar(i);
-                  }}
-                >
-                  <i class="fas fa-trash-alt"></i>{" "}
-                </button>
-              </td>
+              
             </tr>
           ))}
         </tbody>

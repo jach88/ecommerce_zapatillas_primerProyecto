@@ -50,9 +50,9 @@ export default function NavTop() {
             ><i class="fas fa-user"></i> Login
             </Link>
           </Nav.Link>
-          <Nav.Link>
+          
             
-          </Nav.Link>
+          
           <Nav.Link>
               <Link to="/Carrito">
             <Badge badgeContent={totalCarrito} color="secondary">
@@ -60,6 +60,13 @@ export default function NavTop() {
             </Badge>
             </Link>
           </Nav.Link>
+
+          <Nav.Link>
+              <Link to="/checkout">
+                  Comprar!
+              </Link>
+          </Nav.Link>
+          
         </Navbar.Collapse>
       </Container>
     </Navbar>

@@ -7,6 +7,7 @@ import LoginView from './views/LoginView'
 import ListarPersonal from './views/ListarPersonal'
 import ListarProductos from './views/ListarProductos'
 import { Router } from '@material-ui/icons'
+import CheckoutView from './views/CheckoutView'
 
 
 export default function Routes() {
@@ -14,6 +15,7 @@ export default function Routes() {
         <div>
             <Route path="/" exact component={PortadaView} />
             <Route path="/detalle/:id" exact component={ProductoView} />
+            <Route path="/checkout" exact component={CheckoutView} />
             <Route path="/productos" exact component={ProductosView} />
             <Route path="/carrito" exact component={CarritoView} />
             <Route path="/Login" exact component={LoginView} />

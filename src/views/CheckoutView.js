@@ -23,7 +23,7 @@ export default function CheckoutView() {
                                         {prod.nombre}
                                     </span>
                                     <br/>
-                                    <small>Cantidad:</small>
+                                    <small>Cantidad: {prod.cantidad}</small>
                                 </div>
 
                                 <small className="badge bg-dark rounded-pill p-3">
