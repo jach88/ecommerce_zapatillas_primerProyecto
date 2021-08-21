@@ -36,6 +36,11 @@ export default function NavTop() {
               <i class="fas fa-home"></i> Inicio
               </Link>
             </Nav.Link>
+            <Nav.Link>
+              <Link to="/Productos" style={{ color: "white", textDecoration: "None" }}>
+              <i class="fas fa-shopping-bag"></i> Productos
+              </Link>
+            </Nav.Link>
           </Nav>
 
           <Nav.Link>

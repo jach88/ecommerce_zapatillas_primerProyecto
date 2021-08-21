@@ -2,9 +2,9 @@ import axios from "axios";
 import {storage} from "../config/Firebase"
 const URL = `${process.env.REACT_APP_API}/Producto`
 
-const obtenerProductos = async() =>{
+const obtenerProductos = async(busqueda = "") =>{
     try {
-        let {data} = await axios.get(URL)
+        let {data} = await axios.get(`${URL}?search=${busqueda}`)
         return data // aqui es donde obtenemos los datos del mockapi
     } catch (error) {
         throw error

@@ -58,14 +58,14 @@ export default function ProductoView() {
                 <div className="container" >
                     <h2 className="fw-bold">{producto.nombre}</h2>
                     <div className="row">
-                        <div className="col-sm-12 col-md-6">
+                        <div className="col-sm-12 col-md-6 ">
                             <img 
                                 className="img-fluid"
                                 src={producto.imagen}
                                 alt={producto.nombre}
                             />
                         </div>
-                        <div className="col-sm-12 col-md-6">
+                        <div className="col-sm-12 col-md-6 ">
                             <h5 className="fw-bold">Descripcion</h5>
                             <p>{producto.descripcion}</p>
                             <h6 className="fw-bold">Marca</h6>
