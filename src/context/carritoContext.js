@@ -17,7 +17,8 @@ const CarritoContextProvider = (props) =>{
                 let carritoTmp =[...carrito]   //se crea la copia para modificarla
                 carritoTmp.splice(i, 1)        //remueve el producto y aumentará su cantidad
                 carritoTmp.push(productoExiste)  //vuelve a agregar el producto pero con su cantidad
-                setCarrito(carritoTmp) //actualiza el carrito
+                localStorage.setItem(setCarrito(carritoTmp) )
+                //actualiza el carrito
                 return;
             }
         }
@@ -25,8 +26,14 @@ const CarritoContextProvider = (props) =>{
         setCarrito([...carrito, {...producto, cantidad:1} ])
     }
 
+    const eliminarArr=(id)=>{
+        carrito.splice(id,1)
+        setCarrito(carrito)
+        return
+    }
+
     return (
-        <CarritoContext.Provider value={{carrito, anadirACarrito}}>
+        <CarritoContext.Provider value={{carrito, anadirACarrito,eliminarArr,setCarrito}}>
             {props.children}
         </CarritoContext.Provider>
     )
