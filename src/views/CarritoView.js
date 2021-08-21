@@ -9,8 +9,6 @@ export default function CarritoView() {
   const eliminar = (i) => {
     eliminarArr(i)
    carro.splice(i,1)
-   
-
     setCarro(carro);
     console.log(carro);
     window.location.reload()

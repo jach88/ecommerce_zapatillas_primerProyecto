@@ -26,6 +26,10 @@ export default function ListarProductos() {
 
   const [error, setError] = useState({
     nombre:"",
+    precio:"",
+    stock:"",
+    marca:"",
+    descripcion:"",
     tallas:""
   });
 
@@ -33,6 +37,7 @@ export default function ListarProductos() {
     nombre: "",
     precio: "",
     stock: "",
+    tallas:[],
     marca: "",
     descripcion: "",
   });
@@ -86,12 +91,27 @@ export default function ListarProductos() {
   };
   const manejarSubmit = async (e) => {
     e.preventDefault();
+    console.log(error)
+    console.log(rProducto===null)
+    if(rProducto.nombre===""){
 
-    if(rProducto.tallas==null){
-      setError({tallas:"no se permite campos vacios"})
-      console.log("vacio")
-      console.log(error.tallas)
+      setError(error.nombre ="no se permite campos vacios")
+      console.log("vacio nombre")
+      console.log(error)
+      //console.log(error.tallas)
     }
+    if(rProducto.precio===""){
+      setError(error.precio="no se permite campos vacios")
+    }if(rProducto.stock===""){
+      console.log(error)
+      setError({...error},error.stock="no se permite campos vacios")
+    }
+    if(rProducto.marca===""){
+      setError({...error},error.marca="no se permite campos vacios")
+     
+    }
+    console.log(error)
+    console.log(error.marca)
     // try {
     //   const urlArchivo = await subirArchivo(imagen); //primero subimos la imagen y obtenemos la URL
     //   const rpta = await crearProducto({
@@ -167,7 +187,13 @@ export default function ListarProductos() {
           onClick={() => {
             setShow(!show);
             setTipoM("Registrar");
-            setRproducto(null);
+            setRproducto({
+              nombre:"",
+              precio:"",
+              marca:"",
+              descripcion:"",
+              stock:""
+            });
           }}
         >
           <i className="fas fa-user-plus" style={{ color: "green" }}></i>
@@ -257,6 +283,7 @@ export default function ListarProductos() {
                   handleInput(e);
                 }}
               />
+              <spam className="text-danger" >{error.nombre}</spam>
             </div>
             <div className="mb-3">
               <label className="form-label">Precio</label>
@@ -269,6 +296,7 @@ export default function ListarProductos() {
                   handleInput(e);
                 }}
               />
+              <spam className="text-danger" >{error.precio}</spam>
             </div>
             <div className="mb-3">
               <label>Stock</label>
@@ -281,6 +309,7 @@ export default function ListarProductos() {
                   handleInput(e);
                 }}
               />
+              <spam className="text-danger" >{error.precio}</spam>
             </div>
             <div className="mb-3">
               <label>Marca</label>
@@ -293,6 +322,7 @@ export default function ListarProductos() {
                   handleInput(e);
                 }}
               />
+              <spam className="text-danger" >{error.marca}</spam>
             </div>
 
             <div className="mb-3">
@@ -332,6 +362,7 @@ export default function ListarProductos() {
                   handleInput(e);
                 }}
               />
+              <spam className="text-danger" >{error.descripcion}</spam>
             </div>
           </Form>
         </Modal.Body>
